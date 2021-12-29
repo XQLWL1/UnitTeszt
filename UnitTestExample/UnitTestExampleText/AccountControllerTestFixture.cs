@@ -25,7 +25,7 @@ namespace UnitTestExampleText
             //Act: a második a tesztelni kívánt tevékenység végrehajtása
             var actualResult = accountController.ValidateEmail(email);
 
-            //Assert: a harmadik pedig az eredmények helyességének ellenőrzés. összehasonlítjuk az elvárt eredményt a tényleges eredményével
+            //Assert: a harmadik pedig az eredmények helyességének ellenőrzés. összehasonlítjuk az elvárt eredményt a tényleges eredményyel
             Assert.AreEqual(expectedResult, actualResult);
         }
 
@@ -52,8 +52,29 @@ namespace UnitTestExampleText
             //Act: a második a tesztelni kívánt tevékenység végrehajtása
             var actualResult = accountController.ValidatePassword(password);
 
-            //Assert: a harmadik pedig az eredmények helyességének ellenőrzés. összehasonlítjuk az elvárt eredményt a másik futás eredményével
+            //Assert: a harmadik pedig az eredmények helyességének ellenőrzés. összehasonlítjuk az elvárt eredményt a tényleges eredményyel
             Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [Test,
+            TestCase("info@uni-corvinus.hu", "Abcd1234"),
+            TestCase("info@uni-corvinus.hu", "Abcd123456")
+            ]
+
+        public void TestRegisterHappyPath(string email, string password)
+        {
+            //arrange: az első lépés mindig a teszteléshez szükséges elemek összegyűjtés és beállítása
+            var accountController = new AccountController();
+
+            //Act: a második a tesztelni kívánt tevékenység végrehajtása
+            var actualResult = accountController.Register(email, password);
+
+            //Assert: a harmadik pedig az eredmények helyességének ellenőrzés. összehasonlítjuk az elvárt eredményt a tényleges eredményyel
+            Assert.AreEqual(email, actualResult.Email);
+            Assert.AreEqual(password, actualResult.Password);
+
+            //Guid.Empty: guid-nak mi az üres értéke. Itt ha üres, akkor probléma van:
+            Assert.AreNotEqual(Guid.Empty, actualResult.ID);
         }
     }
 }

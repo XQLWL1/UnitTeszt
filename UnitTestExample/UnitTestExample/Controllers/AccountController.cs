@@ -22,10 +22,10 @@ namespace UnitTestExample.Controllers
 
         public Account Register(string email, string password)
         {
-            if(!ValidateEmail(email))
+            if(!ValidateEmail(password))
                 throw new ValidationException(
                     "A megadott e-mail cím nem megfelelő!");
-            if(!ValidateEmail(email))
+            if(!ValidatePassword(email))
                 throw new ValidationException(
                     "A megadottt jelszó nem megfelelő!\n" +
                     "A jelszó legalább 8 karakter hosszú kell legyen, csak az angol ABC betűiből és számokból állhat, és tartalmaznia kell legalább egy kisbetűt, egy nagybetűt és egy számot.");

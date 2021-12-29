@@ -10,7 +10,13 @@ namespace UnitTestExampleText
 {
     public class AccountControllerTestFixture
     {
-        [Test]
+        [Test,
+            TestCase("abcd1234", false),
+            TestCase("irf@uni-corvinus", false),
+            TestCase("irf.uni-corvinus.hu", false),
+            TestCase("irf@uni-corvinus.hu", true)
+            ]
+
         public void TestValidateEmail(string email, bool expectedResult)
         {
             //arrange: az első lépés mindig a teszteléshez szükséges elemek összegyűjtés és beállítása
@@ -19,7 +25,7 @@ namespace UnitTestExampleText
             //Act: a második a tesztelni kívánt tevékenység végrehajtása
             var actualResult = accountController.ValidateEmail(email);
 
-            //Assert: a harmadik pedig az eredmények helyességének ellenőrzés
+            //Assert: a harmadik pedig az eredmények helyességének ellenőrzés. összehasonlítjuk az elvárt eredményt a másik futás eredményével
             Assert.AreEqual(expectedResult, actualResult);
         }
     }

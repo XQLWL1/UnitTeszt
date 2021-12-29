@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
+using System.Activities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -75,6 +76,36 @@ namespace UnitTestExampleText
 
             //Guid.Empty: guid-nak mi az üres értéke. Itt ha üres, akkor probléma van:
             Assert.AreNotEqual(Guid.Empty, actualResult.ID);
+        }
+
+        [
+            Test,
+            TestCase("irf@uni-corvinus", "Abcd1234"),
+            TestCase("irf.uni-corvinus.hu", "Abcd1234"),
+            TestCase("irf@uni-corvinus.hu", "abcd1234"),
+            TestCase("irf@uni-corvinus.hu", "ABCD1234"),
+            TestCase("irf@uni-corvinus.hu", "abcdABCD"),
+            TestCase("irf@uni-corvinus.hu", "Ab1234"),
+            ]
+
+        public void TestRegisterValidateException(string email, string password)
+        {
+            //arrange: az első lépés mindig a teszteléshez szükséges elemek összegyűjtés és beállítása
+            var accountController = new AccountController();
+
+            //Act: a második a tesztelni kívánt tevékenység végrehajtása
+            try
+            {
+                var actualResult = accountController.Register(email, password);
+                Assert.Fail();
+            }
+            catch (Exception exception)
+            {
+                Assert.IsInstanceOf<ValidationException>(exception);
+                //throw;
+            }
+
+            //Assert: a harmadik pedig az eredmények helyességének ellenőrzés. összehasonlítjuk az elvárt eredményt a tényleges eredményyel
         }
     }
 }
